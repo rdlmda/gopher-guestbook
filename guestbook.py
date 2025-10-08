@@ -30,8 +30,8 @@ def read_entries():
 			print(wrap(f"{row['message']}"))
 			print()
 			hash = hashlib.sha256(row['ip'].encode()).hexdigest()[0:6]
-			is_proxy = "using a proxy server " if ("true" in (row['proxy'], row['hosting'])) else ""
-			print(wrap(f"Someone ({hash}) {is_proxy}located in {row['city']}, {row['country']}"))
+			is_server = "via a server " if ("true" in (row['proxy'], row['hosting'])) else ""
+			print(wrap(f"Someone {is_server}({hash}) located in {row['city']}, {row['country']}"))
 			print("\n                                * * *\n")
 
 def add_entry(message):
