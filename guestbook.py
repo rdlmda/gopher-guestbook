@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 import textwrap
 import requests # pip install requests
 import csv
+import hashlib
 
 csv_file_path = './guestbook.csv'
 
@@ -28,8 +29,9 @@ def read_entries():
 			print()
 			print(wrap(f"{row['message']}"))
 			print()
+			hash = hashlib.sha256(row['ip'].encode()).hexdigest()[0:6]
 			is_proxy = "using a proxy server " if ("true" in (row['proxy'], row['hosting'])) else ""
-			print(wrap(f"Someone {is_proxy}({row['ip']}) located in {row['city']}, {row['country']}"))
+			print(wrap(f"Someone ({hash}) {is_proxy}located in {row['city']}, {row['country']}"))
 			print("\n                                * * *\n")
 
 def add_entry(message):
