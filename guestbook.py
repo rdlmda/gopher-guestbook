@@ -17,7 +17,11 @@ csv_file_path = './guestbook.csv'
 
 def wrap(string):
 	lines = textwrap.wrap(string, width=67)
-	return("\n".join(lines))
+	newlines = []
+	for line in lines:
+		# Fix lines starting with selectors or special chars
+		newlines.append(f"i{line}	.")
+	return("\n".join(newlines))
 
 def read_entries():
 	with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
