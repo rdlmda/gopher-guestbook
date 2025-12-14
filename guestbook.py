@@ -27,7 +27,7 @@ def read_entries():
 	with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
 		csv_reader = csv.DictReader(csv_file)
 		rows = list(csv_reader)
-		for row in reversed(rows):
+		for i, row in enumerate(reversed(rows)):
 			timestamp = datetime.fromtimestamp(int(row['time']), tz=timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
 			print(f"{timestamp} (UTC):")
 			print()
@@ -36,7 +36,8 @@ def read_entries():
 			hash = hashlib.sha256(row['ip'].encode()).hexdigest()[0:6]
 			is_server = "via a server " if ("true" in (row['proxy'], row['hosting'])) else ""
 			print(wrap(f"Someone {is_server}({hash}) located in {row['city']}, {row['country']}"))
-			print("\n                                * * *\n")
+			if not (i == len(rows)-1):
+				print("\n                                * * *\n")
 
 def add_entry(message):
 	ip = os.environ['REMOTE_ADDR']
